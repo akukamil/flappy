@@ -247,7 +247,7 @@ anim2 = {
 
 game={
 
-	TUBE_SPEED:2,
+	TUBE_SPEED:3,
 	tubes_space:300,
 	bird_speed_down:0,	
 	bird_state:'fall',
@@ -262,12 +262,16 @@ game={
 		this.tubes_space=300;
 		this.reinit_tubes();	
 		objects.bird.y=objects.bird.sy;
+		objects.bird.tint=0xffffff;
 		anim2.add(objects.bird,{x:[-200,objects.bird.sx]}, true, 0.25,'linear');	
 		
 		anim2.add(objects.score,{y:[-200,objects.score.sy]}, true, 0.25,'linear');	
 		anim2.add(objects.t_score,{y:[-200,objects.t_score.sy]}, true, 0.25,'linear');	
 		
-		
+		this.bird_speed_down=0;
+		this.bird_state='fall';
+		objects.bird.angle=0;	
+				
 		this.score=0;
 		objects.t_score.text=this.score;	
 		
@@ -296,7 +300,7 @@ game={
 	
 	tap(){
 		
-		this.bird_up_speed=-5;
+		this.bird_up_speed=-8;
 		this.bird_state='jump';
 		objects.bird.angle=-15;
 	},
@@ -317,15 +321,15 @@ game={
 		if (this.bird_state=='fall'){
 			objects.bird.y+=this.bird_speed_down;	
 				
-			if (this.bird_speed_down<3) this.bird_speed_down+=0.075;
+			if (this.bird_speed_down<3) this.bird_speed_down+=0.1;
 
 			
 		}else{
 			objects.bird.y+=this.bird_up_speed;
 			this.bird_up_speed*=0.92;	
 			
-			if (this.bird_up_speed>-0.2){
-				this.bird_speed_down=0.2;
+			if (this.bird_up_speed>-0.4){
+				this.bird_speed_down=0.02;
 				this.bird_state='fall';
 				objects.bird.angle=15;				
 			}
@@ -366,6 +370,7 @@ game={
 	async close(){
 		
 		some_process.game=function(){};
+		objects.bird.tint=0xff0000;
 		await new Promise(resolve => {setTimeout(resolve, 1500);});
 		
 		
@@ -566,7 +571,7 @@ function main_loop() {
 	
 	
 	time=performance.now();
-	if (time-prv_time>15){
+	if (time-prv_time>14){
 		for (let key in some_process) some_process[key]();	
 		anim2.process();	
 		prv_time=time;

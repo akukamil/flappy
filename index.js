@@ -302,7 +302,7 @@ game={
 		
 		this.bird_up_speed=-8;
 		this.bird_state='jump';
-		objects.bird.angle=-15;
+		anim2.add(objects.bird,{angle:[objects.bird.angle,-15]}, true, 0.1,'linear');	
 	},
 	
 	process(){
@@ -331,7 +331,7 @@ game={
 			if (this.bird_up_speed>-0.4){
 				this.bird_speed_down=0.02;
 				this.bird_state='fall';
-				objects.bird.angle=15;				
+				anim2.add(objects.bird,{angle:[objects.bird.angle,15]}, true, 0.1,'linear');		
 			}
 		}
 		
